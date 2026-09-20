@@ -1,0 +1,51 @@
+name: announce the release on Telegram
+
+# Posts to the channel whenever a release is published, and can also be run by hand
+# from the Actions tab. Setup is two repository secrets — see .github/telegram/README.md
+# (or the guide in the workspace): TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID.
+#
+# If the secrets are not set yet the job prints a warning and succeeds, so a release is
+# never held up by the announcement.
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      language:
+        description: "fa, en or both — defaults to both (or the repository variable TELEGRAM_LANG)"
+        required: false
+        default: ""
+      test_message:
+        description: "Post this test message instead of a release announcement (separate the two languages with ||)"
+        required: false
+        default: ""
+      dry_run:
+        description: "Print the post to the log instead of sending it"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  announce:
+    name: post to the channel
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Announce
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_LANG: ${{ inputs.language || vars.TELEGRAM_LANG || 'both' }}
+          # Used only to list the commits between two tags when the release has no notes.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TEST_MESSAGE: ${{ inputs.test_message }}
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: |
+          args=(--lang "$TELEGRAM_LANG")
+          if [ "$DRY_RUN" = "true" ]; then args+=(--dry-run); fi
+          if [ -n "$TEST_MESSAGE" ]; then args+=(--test-message "$TEST_MESSAGE"); fi
+          python3 .github/telegram/announce.py "${args[@]}"
