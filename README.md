@@ -1,6 +1,18 @@
+<div align="center">
+
 # netvitals
 
-**One-file network vitals probe** — ping, TCP, DNS, HTTP and TLS checks in parallel, for network engineers and ops people who want a fast answer, not a dashboard to configure.
+**One-file network vitals probe** — ping, TCP, DNS, HTTP and TLS checks in parallel,
+for network engineers and ops people who want a fast answer, not a dashboard to configure.
+
+[![tests](https://github.com/sasoun1366/netvitals/actions/workflows/test.yml/badge.svg)](https://github.com/sasoun1366/netvitals/actions/workflows/test.yml)
+[![python](https://img.shields.io/badge/python-3.9%2B-3776ab?logo=python&logoColor=white)](https://www.python.org/)
+[![license](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![size](https://img.shields.io/badge/size-1%20file-ff69b4)](netvitals.py)
+
+</div>
+
+---
 
 ```
 1.1.1.1             tcp     ✓ OK      1 ms   1.1.1.1:443 open, 1 ms
@@ -15,9 +27,9 @@ dns:github.com      dns     ✓ OK     12 ms   1 record(s), 12.2 ms [140.82.116.
 ## Why one file?
 
 * **No setup.** Copy `netvitals.py` to any box, `pip install rich requests`, done.
-* **Readable.** The whole tool fits in one ~700-line file — auditable, hackable, no framework.
+* **Readable.** The whole tool fits in a single ~700-line file — auditable, hackable, no framework.
 * **Portable.** Works on Linux, macOS and Windows (uses the system `ping`).
-* **Scriptable.** JSON output, meaningful exit codes, watch mode — drops into cron, CI and other tools.
+* **Scriptable.** JSON output, meaningful exit codes, watch mode — drops straight into cron, CI and other tools.
 
 ## Checks
 
@@ -186,15 +198,29 @@ CI step example (GitHub Actions):
     python netvitals.py -f targets-prod.txt --expect-status 200 --latency-warn 500
 ```
 
+## Roadmap
+
+- [x] icmp / tcp / dns / http / tls checks, parallel, one file
+- [x] target files, watch mode, JSON output, exit codes
+- [x] GitHub Actions CI on Python 3.9–3.13 + auto releases
+- [ ] UDP checks
+- [ ] SNMP: interface counters, CPU, memory for Cisco & friends
+- [ ] Config diff between two devices
+- [ ] PyPI: `pip install netvitals`
+- [ ] Plugin checks: load extra checks from a directory
+
+Want one of these? Open an issue or send a PR — see [CONTRIBUTING](CONTRIBUTING.md).
+
 ## Development
 
 ```bash
 python -m venv .venv && . .venv/bin/activate
 pip install -e ".[dev]"
-pytest -q          # 47 offline unit tests, no network needed
+pytest -q          # offline unit tests, no network needed
 ```
 
-CI runs the suite on Python 3.9–3.13 (`.github/workflows/test.yml`).
+CI runs the suite on Python 3.9–3.13 (`.github/workflows/test.yml`), and pushing a `v*` tag
+publishes a GitHub release automatically (`.github/workflows/release.yml`).
 
 ## Notes & limitations
 
