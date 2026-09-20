@@ -1,0 +1,21 @@
+# netvitals target file
+#
+# One target per line. '#' and ';' start a comment.
+# A line may be just a target, or "name target" (name shows up in the table).
+#
+# Supported targets:
+#   host                    full pulse: dns + icmp + tcp (default ports 443,80)
+#   host:port               tcp check
+#   http://... https://...  http check (tls included for https)
+#   tcp:host:port           tcp check
+#   icmp:host               ping only
+#   dns:domain              dns only
+
+DNS-Root      8.8.8.8
+DNS-Quad      1.1.1.1
+GitHub        https://github.com
+Example       https://example.com
+Mail          tcp:mail.example.com:25
+Backup-NAS    tcp:10.0.0.5:445
+Portal        https://portal.example.com
+Router        icmp:10.0.0.1

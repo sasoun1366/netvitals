@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "netvitals"
+version = "0.1.0"
+description = "One-file network vitals probe: ping, TCP, DNS, HTTP and TLS checks in parallel, with watch mode and JSON output."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "netvitals contributors" }]
+keywords = [
+    "network",
+    "monitoring",
+    "ping",
+    "latency",
+    "health-check",
+    "diagnostics",
+    "dns",
+    "tls",
+    "cli",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: System Administrators",
+    "Intended Audience :: Information Technology",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: System :: Networking :: Monitoring",
+    "Topic :: Utilities",
+]
+dependencies = [
+    "rich>=13.0",
+    "requests>=2.28",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7"]
+
+[project.scripts]
+netvitals = "netvitals:main"
+
+[tool.setuptools]
+py-modules = ["netvitals"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
