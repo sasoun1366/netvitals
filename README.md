@@ -228,6 +228,23 @@ publishes a GitHub release automatically (`.github/workflows/release.yml`).
 * DNS timing uses the system resolver; timeout is best-effort (the OS controls resolver timeouts).
 * HTTP checks follow redirects and report the final URL; `--expect-status` applies to the final response.
 
+<!-- support:start -->
+## Support the project
+
+**netvitals** is built and maintained in my own time, and it stays free to use
+and free to fork. If it saved you an outage — or just an afternoon — you can help
+fund the next round of test hardware and the time to add more vendors:
+
+**USDT (TRC20)**
+
+```text
+TMEyd1JZqdCjjKTc4zG2fhjzAYFKXCUWnA
+```
+
+This is the only address I publish for these projects. Anything else claiming to be
+me is not mine.
+<!-- support:end -->
+
 ## License
 
 [MIT](LICENSE)

@@ -1,0 +1,5 @@
+# GitHub reads this to render the Sponsor button. It only accepts public URLs,
+# and a wallet address is not one — so this points at the block explorer page
+# for the address instead.
+custom:
+  - "https://tronscan.org/#/address/TMEyd1JZqdCjjKTc4zG2fhjzAYFKXCUWnA"
