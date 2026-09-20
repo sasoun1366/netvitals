@@ -254,6 +254,22 @@ def send(
         raise SystemExit(f"could not reach the Telegram API: {exc.reason}") from exc
 
 
+def latest_release(repo_full_name: str, token: str | None = None) -> dict[str, Any]:
+    """Build a payload from the most recent published release.
+
+    A manual run ("Run workflow") has no release event of its own, and what people want
+    to see then is exactly this: what the next post will look like.
+    """
+    release = _api(f"/repos/{repo_full_name}/releases/latest", token)
+    return {
+        "repository": {
+            "name": repo_full_name.split("/")[-1],
+            "full_name": repo_full_name,
+        },
+        "release": release,
+    }
+
+
 def load_payload(path: str | None) -> dict[str, Any]:
     if path and Path(path).is_file():
         return json.loads(Path(path).read_text(encoding="utf-8"))
@@ -285,8 +301,17 @@ def main(argv: list[str] | None = None) -> int:
     else:
         payload = load_payload(args.event)
         if not payload.get("release"):
-            print("no release in this event; nothing to announce")
-            return 0
+            repo_full = os.environ.get("GITHUB_REPOSITORY", "")
+            if repo_full:
+                try:
+                    payload = latest_release(repo_full, os.environ.get("GITHUB_TOKEN"))
+                    print(f"no release event here; showing the latest release of {repo_full}")
+                except Exception as exc:  # noqa: BLE001 - a manual run must not fail
+                    print(f"could not read the latest release ({exc})")
+                    payload = {}
+            if not payload.get("release"):
+                print("no release in this event; nothing to announce")
+                return 0
         release = payload["release"]
         bullets: list[str] = []
         if not summarise(release.get("body") or ""):
