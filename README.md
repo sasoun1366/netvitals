@@ -9,6 +9,7 @@ for network engineers and ops people who want a fast answer, not a dashboard to 
 [![python](https://img.shields.io/badge/python-3.9%2B-3776ab?logo=python&logoColor=white)](https://www.python.org/)
 [![license](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![size](https://img.shields.io/badge/size-1%20file-ff69b4)](netvitals.py)
+[![Telegram](https://img.shields.io/badge/Telegram-%40luyavaai-26A5E4?logo=telegram&logoColor=white)](https://t.me/luyavaai)
 
 </div>
 
@@ -227,6 +228,11 @@ publishes a GitHub release automatically (`.github/workflows/release.yml`).
 * `icmp` uses the **system `ping`** binary. In unprivileged containers it may be blocked; netvitals reports that clearly (`no permission for ICMP (try sudo / CAP_NET_RAW)`) instead of failing the run.
 * DNS timing uses the system resolver; timeout is best-effort (the OS controls resolver timeouts).
 * HTTP checks follow redirects and report the final URL; `--expect-status` applies to the final response.
+
+## Stay updated
+
+New releases are announced on Telegram: **[@luyavaai](https://t.me/luyavaai)** — version
+notes, upgrade advice and practical MikroTik / network notes go there first.
 
 <!-- support:start -->
 ## Support the project
